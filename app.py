@@ -2,6 +2,7 @@ import requests
 import uuid
 import os
 from dotenv import load_dotenv
+from order_manager import OrderManager, OrderStatus
 
 # Load environment variables from .env file
 load_dotenv()
@@ -10,39 +11,74 @@ load_dotenv()
 url = os.getenv('PAWAPAY_API_URL', "https://api.sandbox.pawapay.io/deposits")
 token = os.getenv('PAWAPAY_API_TOKEN')
 
-# Generate a UUID for the deposit
-deposit_uuid = str(uuid.uuid4())
+# Initialize order manager
+order_manager = OrderManager()
 
-payload = {
-    "depositId": deposit_uuid,
-    "amount": "50",
-    "currency": "XAF",
-    "country": "CMR",
-    "correspondent": "MTN_MOMO_CMR",
-    "payer": {
-        "type": "MSISDN",
-        "address": {"value": "237677777777"}
-    },
-    "customerTimestamp": "2020-02-21T17:32:28Z",
-    "statementDescription": "Note of 4 to 22 chars",
-    "preAuthorisationCode": "1234567890",
-    "metadata": [
-        {
-            "fieldName": "orderId",
-            "fieldValue": "ORD-123456789"
+def create_payment_request(order):
+    """Create a payment request for an order"""
+    # Generate a UUID for the deposit
+    deposit_uuid = str(uuid.uuid4())
+    
+    # Update order with deposit ID
+    order.deposit_id = deposit_uuid
+    
+    payload = {
+        "depositId": deposit_uuid,
+        "amount": str(order.total_amount),
+        "currency": order.currency,
+        "country": "CMR",
+        "correspondent": "MTN_MOMO_CMR",
+        "payer": {
+            "type": "MSISDN",
+            "address": {"value": "237677777777"}
         },
-        {
-            "fieldName": "customerId",
-            "fieldValue": "customer@email.com",
-            "isPII": True
-        }
+        "customerTimestamp": order.created_at.isoformat(),
+        "statementDescription": f"Order {order.order_id.replace('-', ' ')}",
+        "preAuthorisationCode": "1234567890",
+        "metadata": [
+            {
+                "fieldName": "orderId",
+                "fieldValue": order.order_id
+            },
+            {
+                "fieldName": "customerId",
+                "fieldValue": order.customer_id,
+                "isPII": True
+            }
+        ]
+    }
+    
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    
+    # Update order status
+    order_manager.update_order_status(order.order_id, OrderStatus.PAYMENT_INITIATED)
+    
+    # Make the API request
+    response = requests.request("POST", url, json=payload, headers=headers)
+    
+    return response.json()
+
+# Example usage
+if __name__ == "__main__":
+    # Example product items
+    items = [
+        {"product_id": "PROD-001", "name": "Product 1", "quantity": 2, "price": 25},
+        {"product_id": "PROD-002", "name": "Product 2", "quantity": 1, "price": 50}
     ]
-}
-headers = {
-    "Authorization": f"Bearer {token}",
-    "Content-Type": "application/json"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
+    
+    # Create an order
+    order = order_manager.create_order(
+        customer_id="CUST-001",
+        items=items,
+        total_amount=100,
+        currency="XAF"
+    )
+    
+    print("Created Order:", order.to_dict())
+    
+    # Create payment request
+    payment_response = create_payment_request(order)
+    print("Payment Response:", payment_response)

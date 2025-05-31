@@ -32,6 +32,7 @@ This project demonstrates integration with PawaPay's payment API, including depo
 
 4. **Configure environment variables**
    Create a `.env` file in the root directory with the following content:
+
    ```
    PAWAPAY_API_TOKEN=your_api_token_here
    PAWAPAY_API_URL=https://api.sandbox.pawapay.io/deposits
@@ -74,10 +75,10 @@ This will:
    - Network: `http://your-ip:5000`
 
 3. Available endpoints:
-   - View all callbacks: `GET http://localhost:5000/api/callbacks/view`
-   - Deposit callback: `POST http://localhost:5000/api/callbacks/deposits`
-   - Payout callback: `POST http://localhost:5000/api/callbacks/payouts`
-   - Refund callback: `POST http://localhost:5000/api/callbacks/refunds`
+   - View all callbacks: `GET http://localhost:5000/view`
+   - Deposit callback: `POST http://localhost:5000/deposits`
+   - Payout callback: `POST http://localhost:5000/payouts`
+   - Refund callback: `POST http://localhost:5000/refunds`
 
 ### 3. Testing Callbacks Locally
 
@@ -85,12 +86,12 @@ You can test the callback endpoints using curl or Postman:
 
 ```bash
 # Test deposit callback
-curl -X POST http://localhost:5000/api/callbacks/deposits \
+curl -X POST http://localhost:5000/deposits \
   -H "Content-Type: application/json" \
   -d '{"depositId": "test-123", "status": "SUCCESS"}'
 
 # View all callbacks
-curl http://localhost:5000/api/callbacks/view
+curl http://localhost:5000/view
 ```
 
 ## Making Callbacks Publicly Accessible
@@ -110,9 +111,9 @@ To make the callback server accessible to PawaPay:
    ```
 
 3. Use the provided ngrok URL in your PawaPay dashboard:
-   - Deposit callback: `https://your-ngrok-url/api/callbacks/deposits`
-   - Payout callback: `https://your-ngrok-url/api/callbacks/payouts`
-   - Refund callback: `https://your-ngrok-url/api/callbacks/refunds`
+   - Deposit callback: `https://your-ngrok-url/deposits`
+   - Payout callback: `https://your-ngrok-url/payouts`
+   - Refund callback: `https://your-ngrok-url/refunds`
 
 ## Security Notes
 

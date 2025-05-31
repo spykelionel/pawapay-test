@@ -1,0 +1,52 @@
+{
+  "ORD-0D8DF4E3": {
+    "order_id": "ORD-0D8DF4E3",
+    "customer_id": "CUST-001",
+    "items": [
+      {
+        "product_id": "PROD-001",
+        "name": "Product 1",
+        "quantity": 2,
+        "price": 25
+      },
+      {
+        "product_id": "PROD-002",
+        "name": "Product 2",
+        "quantity": 1,
+        "price": 50
+      }
+    ],
+    "total_amount": 100,
+    "currency": "XAF",
+    "status": "PAYMENT_INITIATED",
+    "deposit_id": "25f1f57d-1b19-4b6f-9f6a-c599321addf7",
+    "created_at": "2025-05-31T05:03:58.510226",
+    "updated_at": "2025-05-31T05:03:58.513076",
+    "payment_details": null
+  },
+  "ORD-35DC352B": {
+    "order_id": "ORD-35DC352B",
+    "customer_id": "CUST-001",
+    "items": [
+      {
+        "product_id": "PROD-001",
+        "name": "Product 1",
+        "quantity": 2,
+        "price": 25
+      },
+      {
+        "product_id": "PROD-002",
+        "name": "Product 2",
+        "quantity": 1,
+        "price": 50
+      }
+    ],
+    "total_amount": 100,
+    "currency": "XAF",
+    "status": "PAYMENT_INITIATED",
+    "deposit_id": "f60b7079-2e5c-473f-9ba0-96db50753ae0",
+    "created_at": "2025-05-31T05:04:31.556780",
+    "updated_at": "2025-05-31T05:04:31.557775",
+    "payment_details": null
+  }
+}

@@ -21,7 +21,7 @@ payload = {
     "correspondent": "MTN_MOMO_CMR",
     "payer": {
         "type": "MSISDN",
-        "address": {"value": "237651321911"}
+        "address": {"value": "237677777777"}
     },
     "customerTimestamp": "2020-02-21T17:32:28Z",
     "statementDescription": "Note of 4 to 22 chars",

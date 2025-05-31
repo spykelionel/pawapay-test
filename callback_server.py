@@ -23,7 +23,7 @@ def deposit_callback():
     print(f"Received deposit callback: {json.dumps(data, indent=2)}")
     return jsonify({"status": "success"}), 200
 
-@app.route('/api/callbacks/payouts', methods=['POST'])
+@app.route('/payouts', methods=['POST'])
 def payout_callback():
     data = request.json
     callback_data = {
@@ -35,7 +35,7 @@ def payout_callback():
     print(f"Received payout callback: {json.dumps(data, indent=2)}")
     return jsonify({"status": "success"}), 200
 
-@app.route('/api/callbacks/refunds', methods=['POST'])
+@app.route('/refunds', methods=['POST'])
 def refund_callback():
     data = request.json
     callback_data = {
@@ -47,7 +47,7 @@ def refund_callback():
     print(f"Received refund callback: {json.dumps(data, indent=2)}")
     return jsonify({"status": "success"}), 200
 
-@app.route('/api/callbacks/view', methods=['GET'])
+@app.route('/view', methods=['GET'])
 def view_callbacks():
     return jsonify(callbacks)
 
